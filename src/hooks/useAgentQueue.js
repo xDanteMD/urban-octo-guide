@@ -35,6 +35,10 @@ function buildSynthesisPrompt(promptTemplate, scratchpadSoFar, contextLabel) {
     .replace('{SCRATCHPAD_SO_FAR}', scratchpadSoFar || '(empty)');
 }
 
+// Hard cap for revisit re-processing: if total chars exceed this,
+// only re-process the 2 most recent chunks plus the synthesis output
+const REVISIT_HARD_CAP_CHARS = 120000;
+
 function sleep(ms) {
   return new Promise((resolve) => setTimeout(resolve, ms));
 }
@@ -337,7 +341,22 @@ export function useAgentQueue({ apiKeys, selectedModel, models }) {
                 continue;
               }
 
-              const revisitChunks = chunkByTurns(targetText, chunkConfig.maxChars, chunkConfig.respectTurns);
+              let revisitChunks = chunkByTurns(targetText, chunkConfig.maxChars, chunkConfig.respectTurns);
+
+              // Hard cap: if total chars exceed threshold, only use the
+              // 2 most recent chunks plus the synthesis output
+              const totalRevisitChars = revisitChunks.reduce((sum, c) => sum + c.length, 0);
+              if (totalRevisitChars > REVISIT_HARD_CAP_CHARS && revisitChunks.length > 2) {
+                const recentChunks = revisitChunks.slice(-2);
+                const synthesisText = marker.filename === 'global'
+                  ? currentGlobalResult
+                  : (allPerFileSyntheses[marker.filename] || '');
+                if (synthesisText) {
+                  recentChunks.unshift(`[SYNTHESIS CONTEXT]\n\n${synthesisText}`);
+                }
+                revisitChunks = recentChunks;
+              }
+
               const revisitScratchpad = {};
               agentPasses.forEach((p) => { revisitScratchpad[p.title] = ''; });
 

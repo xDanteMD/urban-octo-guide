@@ -20,6 +20,7 @@ export default function AgentPassQueue({
   setSynthesisConfig,
   canRun,
   isRunning,
+  blockedByOtherTab,
   onRun,
   onStop,
   progress,
@@ -327,6 +328,7 @@ export default function AgentPassQueue({
           <button
             onClick={onRun}
             disabled={!canRun}
+            title={blockedByOtherTab ? 'Stop current run before switching modes.' : undefined}
             className="w-full bg-accent hover:bg-accent/90 text-white rounded-lg py-2 font-display font-bold uppercase tracking-widest text-xs disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
             ▶ Run Agent

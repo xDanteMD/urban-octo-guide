@@ -134,21 +134,24 @@ export default function App() {
     }
   }, [files, provider]);
 
-  // Analysis mode canRun
+  // Cross-tab run guard: only one mode can run at a time
   const hasApiKey = apiKeys.getKeyForProvider(provider);
   const hasFiles = files.length > 0;
+  const isEitherRunning = runQueue.isRunning || agentQueue.isRunning;
+
+  // Analysis mode canRun
   const hasValidPasses = passes.every(p => p.title.trim() && p.prompt.trim());
-  const canRunAnalysis = hasApiKey && hasFiles && hasValidPasses && !runQueue.isRunning;
+  const canRunAnalysis = hasApiKey && hasFiles && hasValidPasses && !isEitherRunning;
+  const analysisBlockedByAgent = agentQueue.isRunning && !runQueue.isRunning;
 
   // Agent mode canRun
   const hasValidAgentPasses = agentPasses.every(p => p.title.trim() && p.prompt.trim());
-  const canRunAgent = hasApiKey && hasFiles && hasValidAgentPasses && !agentQueue.isRunning;
+  const canRunAgent = hasApiKey && hasFiles && hasValidAgentPasses && !isEitherRunning;
+  const agentBlockedByAnalysis = runQueue.isRunning && !agentQueue.isRunning;
 
   const handleAgentRun = useCallback(() => {
     agentQueue.startRun(files, agentPasses, chunkConfig, synthesisConfig);
   }, [agentQueue, files, agentPasses, chunkConfig, synthesisConfig]);
-
-  const isEitherRunning = runQueue.isRunning || agentQueue.isRunning;
 
   return (
     <div className="h-full w-full flex flex-col bg-base text-text-mid font-sans">
@@ -201,6 +204,7 @@ export default function App() {
             setPasses={setPasses}
             canRun={canRunAnalysis}
             isRunning={runQueue.isRunning}
+            blockedByOtherTab={analysisBlockedByAgent}
             onRun={runQueue.startRun}
             onStop={runQueue.stopRun}
             progress={runQueue.progress}
@@ -258,6 +262,7 @@ export default function App() {
             setSynthesisConfig={setSynthesisConfig}
             canRun={canRunAgent}
             isRunning={agentQueue.isRunning}
+            blockedByOtherTab={agentBlockedByAnalysis}
             onRun={handleAgentRun}
             onStop={agentQueue.stopRun}
             progress={agentQueue.progress}

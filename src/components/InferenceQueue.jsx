@@ -12,6 +12,7 @@ export default function InferenceQueue({
   setPasses,
   canRun,
   isRunning,
+  blockedByOtherTab,
   onRun,
   onStop,
   progress,
@@ -270,6 +271,7 @@ export default function InferenceQueue({
             <button
               onClick={onRun}
               disabled={!canRun}
+              title={blockedByOtherTab ? 'Stop current run before switching modes.' : undefined}
               className="flex-1 bg-accent hover:bg-accent/80 disabled:bg-accent/30 disabled:cursor-not-allowed text-white font-display font-bold uppercase tracking-widest py-2 px-4 rounded-lg text-sm transition-colors"
             >
               &#9654; Run Analysis
