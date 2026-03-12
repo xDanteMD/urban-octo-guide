@@ -1,0 +1,17 @@
+{
+  "name": "Default — Narrative Analysis",
+  "passes": [
+    {
+      "title": "EmoBeats",
+      "prompt": "Analyze the emotional beats in this document. Identify key emotional shifts, turning points, and the overall emotional arc. For each beat, describe the emotion, its trigger, and its narrative impact."
+    },
+    {
+      "title": "Themes",
+      "prompt": "Extract and analyze the major themes present in this document. For each theme, provide examples from the text, explain how the theme develops, and note any thematic tensions or contradictions."
+    },
+    {
+      "title": "CharacterVoice",
+      "prompt": "Analyze the distinct character voices in this document. For each character, describe their speech patterns, vocabulary choices, tone, and how their voice reflects their personality and role in the narrative."
+    }
+  ]
+}
