@@ -9,7 +9,7 @@ const THEMES = [
   { id: 'minimal', label: 'Minimal', desc: 'Static violet accent (default)' },
 ];
 
-export default function SettingsModal({ theme, setTheme, apiKeys, onClose }) {
+export default function SettingsModal({ theme, setTheme, apiKeys, streamingSpeed, setStreamingSpeed, onClose }) {
   const [scale, setScale] = useState(100);
   const [outputFolder, setOutputFolder] = useState('');
   const [version, setVersion] = useState('');
@@ -103,6 +103,25 @@ export default function SettingsModal({ theme, setTheme, apiKeys, onClose }) {
                   </div>
                 </button>
               ))}
+            </div>
+          </div>
+
+          {/* Streaming Speed */}
+          <div>
+            <label className="font-display text-[9.5px] font-bold uppercase tracking-[0.14em] text-text-lo block mb-2">
+              Streaming Speed: {streamingSpeed} chars/frame
+            </label>
+            <input
+              type="range"
+              min={1}
+              max={20}
+              value={streamingSpeed || 4}
+              onChange={(e) => setStreamingSpeed(Number(e.target.value))}
+              className="w-full accent-accent"
+            />
+            <div className="flex justify-between text-[10px] text-text-lo mt-1">
+              <span>Readable</span>
+              <span>Fast</span>
             </div>
           </div>
 

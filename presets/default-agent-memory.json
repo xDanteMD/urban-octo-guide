@@ -1,0 +1,20 @@
+{
+  "name": "Memory Lore Dump",
+  "passes": [
+    {
+      "title": "Analytical",
+      "role": "Analytical",
+      "prompt": "Extract factual patterns: preferences, recurring decisions, technical choices, stated rules, workflow habits. Be precise and list-oriented. Cite brief direct quotes to anchor each observation."
+    },
+    {
+      "title": "EmotionalSignal",
+      "role": "Emotional",
+      "prompt": "Extract emotionally salient moments: milestones, frustrations, breakthroughs, expressions of identity or values. Reproduce the most resonant quotes verbatim. Note the emotional texture, not just the content."
+    },
+    {
+      "title": "Inconsistencies",
+      "role": "Inconsistency",
+      "prompt": "Flag contradictions, changed opinions, evolving stances, or moments where stated preferences conflict with observed behavior. Be specific — cite both instances."
+    }
+  ]
+}

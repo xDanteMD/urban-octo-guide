@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import ProgressBar from './ProgressBar';
+import { useStreamBuffer } from '../hooks/useStreamBuffer';
 
 export default function OutputViewer({
   isRunning,
@@ -17,14 +18,51 @@ export default function OutputViewer({
   const [selectedTab, setSelectedTab] = useState(0);
   const [outputFiles, setOutputFiles] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
+  const [displayText, setDisplayText] = useState('');
   const streamRef = useRef(null);
+  const prevStreamTextRef = useRef('');
+
+  // Stream buffer for smooth character drain
+  const onChar = useCallback((batch) => {
+    setDisplayText((prev) => prev + batch);
+  }, []);
+
+  const { enqueue, flush, setSpeed } = useStreamBuffer(onChar);
+
+  // Feed new chunks into the buffer
+  useEffect(() => {
+    if (!streamText) {
+      setDisplayText('');
+      prevStreamTextRef.current = '';
+      return;
+    }
+
+    const prev = prevStreamTextRef.current;
+    if (streamText.length > prev.length) {
+      const newChars = streamText.slice(prev.length);
+      enqueue(newChars);
+    } else if (streamText.length < prev.length) {
+      // Stream was reset (new pass started)
+      flush();
+      setDisplayText('');
+      enqueue(streamText);
+    }
+    prevStreamTextRef.current = streamText;
+  }, [streamText, enqueue, flush]);
+
+  // Flush buffer when streaming ends
+  useEffect(() => {
+    if (!isRunning) {
+      flush();
+    }
+  }, [isRunning, flush]);
 
   // Auto-scroll stream view
   useEffect(() => {
     if (streamRef.current) {
       streamRef.current.scrollTop = streamRef.current.scrollHeight;
     }
-  }, [streamText]);
+  }, [displayText]);
 
   // Load output files when run completes
   useEffect(() => {
@@ -79,7 +117,7 @@ export default function OutputViewer({
           {selectedTab === -1 || completedResults.length === 0 ? (
             <div className="markdown-content text-sm text-text-mid">
               <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                {streamText || '*Waiting for response...*'}
+                {displayText || '*Waiting for response...*'}
               </ReactMarkdown>
             </div>
           ) : (
@@ -128,7 +166,7 @@ export default function OutputViewer({
           {runFolderPath && (
             <button
               onClick={() => window.electronAPI.openOutputFolder(runFolderPath)}
-              className="text-xs text-accent hover:text-accent/80 transition-colors whitespace-nowrap"
+              className="text-xs text-accent hover:text-accent/80 transition-colors whitespace-nowrap font-sans font-medium"
             >
               Open Folder
             </button>
