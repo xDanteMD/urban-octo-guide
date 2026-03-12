@@ -51,7 +51,7 @@ export default function FilePanel({ files, setFiles }) {
 
   return (
     <div className="flex-1 flex flex-col overflow-hidden p-3">
-      <h3 className="text-xs font-semibold text-text-heading uppercase tracking-wider mb-2">
+      <h3 className="font-display text-[9.5px] font-bold uppercase tracking-[0.14em] text-text-lo mb-2">
         Files ({files.length})
       </h3>
 
@@ -62,18 +62,18 @@ export default function FilePanel({ files, setFiles }) {
         onDrop={handleDrop}
         onClick={handleBrowse}
         className={`border-2 border-dashed rounded-lg p-4 text-center cursor-pointer transition-colors mb-2 shrink-0 ${
-          isDragging ? 'drop-zone-active border-accent' : 'border-border hover:border-accent/50'
+          isDragging ? 'drop-zone-active border-accent' : 'border-border-soft hover:border-accent/50'
         }`}
       >
-        <svg className="mx-auto mb-1 text-text-body/50" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
+        <svg className="mx-auto mb-1 text-text-lo" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
           <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
           <polyline points="17 8 12 3 7 8"/>
           <line x1="12" y1="3" x2="12" y2="15"/>
         </svg>
-        <p className="text-xs text-text-body/60">
+        <p className="text-xs text-text-mid">
           {parsing ? 'Parsing...' : 'Drop files or click to browse'}
         </p>
-        <p className="text-[10px] text-text-body/40 mt-1">.txt .md .pdf .docx</p>
+        <p className="text-[10px] text-text-lo mt-1">.txt .md .pdf .docx</p>
       </div>
 
       {/* File List */}
@@ -85,12 +85,12 @@ export default function FilePanel({ files, setFiles }) {
               <polyline points="14 2 14 8 20 8"/>
             </svg>
             <div className="flex-1 min-w-0">
-              <p className="text-xs text-text-heading truncate">{file.name}</p>
-              <p className="text-[10px] text-text-body/50">{formatSize(file.size)}</p>
+              <p className="text-xs text-text-hi truncate">{file.name}</p>
+              <p className="text-[10px] text-text-lo">{formatSize(file.size)}</p>
             </div>
             <button
               onClick={(e) => { e.stopPropagation(); removeFile(file.id); }}
-              className="opacity-0 group-hover:opacity-100 text-text-body/50 hover:text-coral text-sm transition-opacity"
+              className="opacity-0 group-hover:opacity-100 text-text-lo hover:text-coral text-sm transition-opacity"
             >
               ✕
             </button>

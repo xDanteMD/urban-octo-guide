@@ -10,9 +10,18 @@ import { useApiKeys, useStoreValue } from './hooks/useStore';
 import { useRunQueue } from './hooks/useRunQueue';
 
 const MODELS = [
-  { group: 'Anthropic', provider: 'anthropic', models: ['claude-3-7-sonnet-20250219', 'claude-3-5-haiku-20241022'] },
-  { group: 'Gemini', provider: 'gemini', models: ['gemini-2.0-flash', 'gemini-2.0-pro', 'gemini-1.5-pro'] },
-  { group: 'DeepSeek', provider: 'deepseek', models: ['deepseek-chat', 'deepseek-reasoner'] },
+  {
+    group: 'Anthropic', provider: 'anthropic',
+    models: ['claude-opus-4-6', 'claude-sonnet-4-6', 'claude-haiku-4-5-20251001']
+  },
+  {
+    group: 'Gemini', provider: 'gemini',
+    models: ['gemini-3.1-pro-preview', 'gemini-3-flash-preview', 'gemini-2.5-flash', 'gemini-2.5-flash-lite']
+  },
+  {
+    group: 'DeepSeek', provider: 'deepseek',
+    models: ['deepseek-reasoner', 'deepseek-chat']
+  },
 ];
 
 function getProviderForModel(modelId) {
@@ -25,7 +34,7 @@ function getProviderForModel(modelId) {
 export default function App() {
   const [settingsOpen, setSettingsOpen] = useState(false);
   const [theme, setTheme] = useStoreValue('theme', 'minimal');
-  const [selectedModel, setSelectedModel] = useStoreValue('selectedModel', 'claude-3-7-sonnet-20250219');
+  const [selectedModel, setSelectedModel] = useStoreValue('selectedModel', 'claude-sonnet-4-6');
   const [files, setFiles] = useState([]);
   const [passes, setPasses] = useState([
     { id: '1', title: '', prompt: '' },
@@ -77,9 +86,10 @@ export default function App() {
   const canRun = hasApiKey && hasFiles && hasValidPasses && !runQueue.isRunning;
 
   return (
-    <div className="h-full w-full flex flex-col bg-base text-text-body font-sans">
+    <div className="h-full w-full flex flex-col bg-base text-text-mid font-sans">
       <TitleBar
         onSettingsClick={() => setSettingsOpen(true)}
+        isRunning={runQueue.isRunning}
       />
 
       {warnings.length > 0 && (
@@ -88,13 +98,13 @@ export default function App() {
 
       <div className="flex flex-1 overflow-hidden">
         {/* Left Sidebar */}
-        <div className="w-72 min-w-[280px] flex flex-col border-r border-border overflow-y-auto">
+        <div className="w-72 min-w-[280px] flex flex-col border-r border-border-soft overflow-y-auto">
           <FilePanel files={files} setFiles={setFiles} />
           <ApiKeysPanel apiKeys={apiKeys} />
         </div>
 
         {/* Center Panel */}
-        <div className="flex-1 flex flex-col overflow-hidden border-r border-border">
+        <div className="flex-1 flex flex-col overflow-hidden border-r border-border-soft">
           <InferenceQueue
             models={MODELS}
             selectedModel={selectedModel}

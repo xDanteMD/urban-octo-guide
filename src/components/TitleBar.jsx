@@ -1,8 +1,8 @@
 import React from 'react';
 
-export default function TitleBar({ onSettingsClick }) {
+export default function TitleBar({ onSettingsClick, isRunning }) {
   return (
-    <div className="h-10 bg-surface border-b border-border flex items-center px-3 titlebar-drag select-none shrink-0">
+    <div className="h-10 bg-surface border-b border-border-soft flex items-center px-3 titlebar-drag select-none shrink-0">
       <div className="flex items-center gap-2 titlebar-no-drag">
         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#7c6af7" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
           <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
@@ -12,15 +12,24 @@ export default function TitleBar({ onSettingsClick }) {
         </svg>
       </div>
 
-      <span className="ml-2 text-sm font-semibold text-text-heading tracking-wide">
-        xDMD-PPLX-Analyzer
+      <span className="ml-2 font-display text-sm font-bold text-text-hi tracking-wide">
+        <span className="text-accent font-black">x</span>DMD
+        <span className="text-text-lo mx-1.5">·</span>
+        <span className="font-normal text-text-mid">PPLX-Analyzer</span>
       </span>
 
       <div className="flex-1" />
 
+      {isRunning && (
+        <span className="font-mono text-[10px] text-text-lo mr-3 flex items-center gap-1.5">
+          <span className="inline-block w-1.5 h-1.5 rounded-full bg-emerald blink" />
+          processing
+        </span>
+      )}
+
       <button
         onClick={onSettingsClick}
-        className="titlebar-no-drag p-1.5 rounded hover:bg-border/50 text-text-body hover:text-text-heading transition-colors mr-2"
+        className="titlebar-no-drag p-1.5 rounded hover:bg-hover text-text-mid hover:text-text-hi transition-colors mr-2"
         title="Settings"
       >
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -32,7 +41,7 @@ export default function TitleBar({ onSettingsClick }) {
       <div className="flex items-center gap-1 titlebar-no-drag">
         <button
           onClick={() => window.electronAPI.minimize()}
-          className="w-8 h-8 flex items-center justify-center rounded hover:bg-border/50 text-text-body hover:text-text-heading transition-colors"
+          className="w-8 h-8 flex items-center justify-center rounded hover:bg-hover text-text-mid hover:text-text-hi transition-colors"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <line x1="5" y1="12" x2="19" y2="12"/>
@@ -40,7 +49,7 @@ export default function TitleBar({ onSettingsClick }) {
         </button>
         <button
           onClick={() => window.electronAPI.maximize()}
-          className="w-8 h-8 flex items-center justify-center rounded hover:bg-border/50 text-text-body hover:text-text-heading transition-colors"
+          className="w-8 h-8 flex items-center justify-center rounded hover:bg-hover text-text-mid hover:text-text-hi transition-colors"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <rect x="5" y="5" width="14" height="14" rx="1"/>
@@ -48,7 +57,7 @@ export default function TitleBar({ onSettingsClick }) {
         </button>
         <button
           onClick={() => window.electronAPI.close()}
-          className="w-8 h-8 flex items-center justify-center rounded hover:bg-coral/20 text-text-body hover:text-coral transition-colors"
+          className="w-8 h-8 flex items-center justify-center rounded hover:bg-coral/20 text-text-mid hover:text-coral transition-colors"
         >
           <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
             <line x1="18" y1="6" x2="6" y2="18"/>

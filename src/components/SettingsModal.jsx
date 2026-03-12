@@ -48,13 +48,13 @@ export default function SettingsModal({ theme, setTheme, apiKeys, onClose }) {
       <motion.div
         initial={{ scale: 0.95, opacity: 0 }}
         animate={{ scale: 1, opacity: 1 }}
-        className="bg-surface border border-border rounded-xl w-[480px] max-h-[80vh] overflow-y-auto shadow-2xl"
+        className="bg-surface border border-border-soft rounded-xl w-[480px] max-h-[80vh] overflow-y-auto shadow-2xl"
       >
-        <div className="flex items-center justify-between p-4 border-b border-border">
-          <h2 className="text-text-heading font-semibold text-base">Settings</h2>
+        <div className="flex items-center justify-between p-4 border-b border-border-soft">
+          <h2 className="text-text-hi font-display font-bold text-base">Settings</h2>
           <button
             onClick={onClose}
-            className="w-7 h-7 flex items-center justify-center rounded hover:bg-border/50 text-text-body/50 hover:text-text-body transition-colors"
+            className="w-7 h-7 flex items-center justify-center rounded hover:bg-hover text-text-lo hover:text-text-mid transition-colors"
           >
             <svg className="w-4 h-4" viewBox="0 0 12 12">
               <line x1="2" y1="2" x2="10" y2="10" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round"/>
@@ -66,7 +66,7 @@ export default function SettingsModal({ theme, setTheme, apiKeys, onClose }) {
         <div className="p-4 space-y-5">
           {/* UI Scale */}
           <div>
-            <label className="text-xs text-text-heading font-medium block mb-2">UI Scale: {scale}%</label>
+            <label className="font-display text-[9.5px] font-bold uppercase tracking-[0.14em] text-text-lo block mb-2">UI Scale: {scale}%</label>
             <input
               type="range"
               min={75}
@@ -75,7 +75,7 @@ export default function SettingsModal({ theme, setTheme, apiKeys, onClose }) {
               onChange={(e) => handleScaleChange(e.target.value)}
               className="w-full accent-accent"
             />
-            <div className="flex justify-between text-[10px] text-text-body/40 mt-1">
+            <div className="flex justify-between text-[10px] text-text-lo mt-1">
               <span>75%</span>
               <span>100%</span>
               <span>150%</span>
@@ -84,7 +84,7 @@ export default function SettingsModal({ theme, setTheme, apiKeys, onClose }) {
 
           {/* Theme Picker */}
           <div>
-            <label className="text-xs text-text-heading font-medium block mb-2">Theme</label>
+            <label className="font-display text-[9.5px] font-bold uppercase tracking-[0.14em] text-text-lo block mb-2">Theme</label>
             <div className="grid grid-cols-1 gap-1.5">
               {THEMES.map(t => (
                 <button
@@ -93,13 +93,13 @@ export default function SettingsModal({ theme, setTheme, apiKeys, onClose }) {
                   className={`flex items-center gap-3 px-3 py-2 rounded-lg border text-left transition-colors ${
                     theme === t.id
                       ? 'border-accent bg-accent/10'
-                      : 'border-border hover:border-accent/30'
+                      : 'border-border-soft hover:border-accent/30'
                   }`}
                 >
                   <div className={`w-8 h-2 rounded-full theme-${t.id}`} />
                   <div>
-                    <p className="text-xs text-text-heading font-medium">{t.label}</p>
-                    <p className="text-[10px] text-text-body/50">{t.desc}</p>
+                    <p className="text-xs text-text-hi font-medium">{t.label}</p>
+                    <p className="text-[10px] text-text-lo">{t.desc}</p>
                   </div>
                 </button>
               ))}
@@ -108,9 +108,9 @@ export default function SettingsModal({ theme, setTheme, apiKeys, onClose }) {
 
           {/* Output Folder */}
           <div>
-            <label className="text-xs text-text-heading font-medium block mb-2">Output Folder</label>
+            <label className="font-display text-[9.5px] font-bold uppercase tracking-[0.14em] text-text-lo block mb-2">Output Folder</label>
             <div className="flex items-center gap-2">
-              <p className="flex-1 text-xs text-text-body/60 truncate bg-base rounded px-2 py-1.5 border border-border">
+              <p className="flex-1 text-xs text-text-mid truncate bg-base rounded px-2 py-1.5 border border-border-soft">
                 {outputFolder}
               </p>
               <button
@@ -133,8 +133,8 @@ export default function SettingsModal({ theme, setTheme, apiKeys, onClose }) {
           </div>
 
           {/* Version */}
-          <div className="pt-2 border-t border-border">
-            <p className="text-[10px] text-text-body/30">xDMD-PPLX-Analyzer v{version}</p>
+          <div className="pt-2 border-t border-border-soft">
+            <p className="text-[10px] text-text-lo">xDMD-PPLX-Analyzer v{version}</p>
           </div>
         </div>
       </motion.div>

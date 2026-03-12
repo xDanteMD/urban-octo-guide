@@ -80,12 +80,12 @@ export default function InferenceQueue({
   return (
     <div className="flex flex-col h-full overflow-hidden">
       {/* Model Selector */}
-      <div className="p-3 border-b border-border shrink-0">
-        <label className="text-xs text-text-body/60 block mb-1">Model</label>
+      <div className="p-3 border-b border-border-soft shrink-0">
+        <label className="font-display text-[9.5px] font-bold uppercase tracking-[0.14em] text-text-lo block mb-1">Model</label>
         <select
           value={selectedModel}
           onChange={(e) => setSelectedModel(e.target.value)}
-          className="w-full bg-surface border border-border rounded px-2 py-1.5 text-sm text-text-heading focus:border-accent focus:outline-none"
+          className="w-full bg-surface border border-border-soft rounded px-2 py-1.5 text-sm text-text-hi focus:border-accent focus:outline-none"
           disabled={isRunning}
         >
           {models.map(group => (
@@ -101,7 +101,7 @@ export default function InferenceQueue({
       {/* Preset Toolbar */}
       <div className="px-3 pt-3 pb-1 flex items-center gap-2 shrink-0 flex-wrap">
         <select
-          className="bg-surface border border-border rounded px-2 py-1 text-xs text-text-body focus:border-accent focus:outline-none"
+          className="bg-surface border border-border-soft rounded px-2 py-1 text-xs text-text-mid focus:border-accent focus:outline-none"
           defaultValue=""
           onChange={(e) => {
             const preset = presets.find(p => p.name === e.target.value);
@@ -118,13 +118,13 @@ export default function InferenceQueue({
         <button
           onClick={savePreset}
           disabled={isRunning}
-          className="text-xs text-accent hover:text-accent/80 disabled:opacity-50 transition-colors"
+          className="font-sans font-medium text-text-mid text-xs hover:text-accent disabled:opacity-50 transition-colors"
         >
-          Save Current as Preset
+          Save Preset
         </button>
         <button
           onClick={() => window.electronAPI.openPresetsFolder()}
-          className="text-xs text-text-body/50 hover:text-text-body transition-colors"
+          className="font-sans font-medium text-text-mid text-xs hover:text-text-hi transition-colors"
         >
           Open Folder
         </button>
@@ -143,6 +143,7 @@ export default function InferenceQueue({
                 onChange={handlePassChange}
                 onDelete={handleDeletePass}
                 isActive={isRunning && progress?.currentPassIndex === idx}
+                isDone={isRunning && progress?.currentPassIndex != null && idx < progress.currentPassIndex}
                 theme={theme}
               />
             ))}
@@ -152,17 +153,17 @@ export default function InferenceQueue({
         <button
           onClick={addPass}
           disabled={isRunning}
-          className="w-full border-2 border-dashed border-border rounded-lg py-2 text-xs text-text-body/50 hover:text-accent hover:border-accent/50 disabled:opacity-50 transition-colors"
+          className="w-full border-2 border-dashed border-border-soft rounded-lg py-2 font-sans font-medium text-text-mid text-xs hover:text-accent hover:border-accent/50 disabled:opacity-50 transition-colors"
         >
           + Add Pass
         </button>
       </div>
 
       {/* Timing Configuration */}
-      <div className="border-t border-border shrink-0">
+      <div className="border-t border-border-soft shrink-0">
         <button
           onClick={() => setTimingOpen(!timingOpen)}
-          className="w-full px-3 py-2 text-xs text-text-body/60 hover:text-text-body flex items-center justify-between transition-colors"
+          className="w-full px-3 py-2 font-display text-[9.5px] font-bold uppercase tracking-[0.14em] text-text-lo hover:text-text-mid flex items-center justify-between transition-colors"
         >
           <span>Timing Configuration</span>
           <span className="text-[10px]">{timingOpen ? '▲' : '▼'}</span>
@@ -170,54 +171,54 @@ export default function InferenceQueue({
         {timingOpen && (
           <div className="px-3 pb-3 space-y-2">
             <div>
-              <label className="text-[10px] text-text-body/50 block mb-0.5">First-pass delay per file (prompt cache warm-up)</label>
+              <label className="text-[10px] text-text-lo block mb-0.5">First-pass delay per file (prompt cache warm-up)</label>
               <input
                 type="number"
                 value={cacheWarmDelay}
                 onChange={(e) => setCacheWarmDelay(Number(e.target.value))}
                 min={0}
-                className="w-24 bg-surface border border-border rounded px-2 py-1 text-xs text-text-body focus:border-accent focus:outline-none"
+                className="w-24 bg-surface border border-border-soft rounded px-2 py-1 text-xs text-text-mid focus:border-accent focus:outline-none"
               />
-              <span className="text-[10px] text-text-body/40 ml-1">seconds</span>
+              <span className="text-[10px] text-text-lo ml-1">seconds</span>
             </div>
             <div>
-              <label className="text-[10px] text-text-body/50 block mb-0.5">Delay between passes on same file</label>
+              <label className="text-[10px] text-text-lo block mb-0.5">Delay between passes on same file</label>
               <input
                 type="number"
                 value={interPassDelay}
                 onChange={(e) => setInterPassDelay(Number(e.target.value))}
                 min={0}
-                className="w-24 bg-surface border border-border rounded px-2 py-1 text-xs text-text-body focus:border-accent focus:outline-none"
+                className="w-24 bg-surface border border-border-soft rounded px-2 py-1 text-xs text-text-mid focus:border-accent focus:outline-none"
               />
-              <span className="text-[10px] text-text-body/40 ml-1">seconds</span>
+              <span className="text-[10px] text-text-lo ml-1">seconds</span>
             </div>
             <div>
-              <label className="text-[10px] text-text-body/50 block mb-0.5">Delay between files</label>
+              <label className="text-[10px] text-text-lo block mb-0.5">Delay between files</label>
               <input
                 type="number"
                 value={interFileDelay}
                 onChange={(e) => setInterFileDelay(Number(e.target.value))}
                 min={0}
-                className="w-24 bg-surface border border-border rounded px-2 py-1 text-xs text-text-body focus:border-accent focus:outline-none"
+                className="w-24 bg-surface border border-border-soft rounded px-2 py-1 text-xs text-text-mid focus:border-accent focus:outline-none"
               />
-              <span className="text-[10px] text-text-body/40 ml-1">seconds</span>
+              <span className="text-[10px] text-text-lo ml-1">seconds</span>
             </div>
           </div>
         )}
       </div>
 
       {/* Output Options */}
-      <div className="border-t border-border shrink-0">
+      <div className="border-t border-border-soft shrink-0">
         <button
           onClick={() => setOutputOptsOpen(!outputOptsOpen)}
-          className="w-full px-3 py-2 text-xs text-text-body/60 hover:text-text-body flex items-center justify-between transition-colors"
+          className="w-full px-3 py-2 font-display text-[9.5px] font-bold uppercase tracking-[0.14em] text-text-lo hover:text-text-mid flex items-center justify-between transition-colors"
         >
           <span>Output Options</span>
           <span className="text-[10px]">{outputOptsOpen ? '▲' : '▼'}</span>
         </button>
         {outputOptsOpen && (
           <div className="px-3 pb-3 space-y-2">
-            <label className="flex items-center gap-2 text-xs text-text-body cursor-pointer">
+            <label className="flex items-center gap-2 text-xs text-text-mid cursor-pointer">
               <input
                 type="checkbox"
                 checked={separateFiles}
@@ -226,7 +227,7 @@ export default function InferenceQueue({
               />
               Separate files
             </label>
-            <label className="flex items-center gap-2 text-xs text-text-body cursor-pointer">
+            <label className="flex items-center gap-2 text-xs text-text-mid cursor-pointer">
               <input
                 type="checkbox"
                 checked={collationFile}
@@ -235,7 +236,7 @@ export default function InferenceQueue({
               />
               Collation file
             </label>
-            <label className="flex items-center gap-2 text-xs text-text-body cursor-pointer">
+            <label className="flex items-center gap-2 text-xs text-text-mid cursor-pointer">
               <input
                 type="checkbox"
                 checked={streamingPreview}
@@ -249,7 +250,7 @@ export default function InferenceQueue({
       </div>
 
       {/* Run Controls */}
-      <div className="p-3 border-t border-border shrink-0 space-y-2">
+      <div className="p-3 border-t border-border-soft shrink-0 space-y-2">
         {isRunning && progress && (
           <>
             <ProgressBar
@@ -257,7 +258,7 @@ export default function InferenceQueue({
               theme={theme}
               animate={true}
             />
-            <p className="text-xs text-text-body/60 text-center">
+            <p className="text-xs text-text-lo text-center">
               Processing file {progress.currentFileIndex + 1} of {progress.totalFiles} — Pass {progress.currentPassIndex + 1} of {progress.totalPasses}
               {progress.currentPassTitle ? ` (${progress.currentPassTitle})` : ''}
             </p>
@@ -269,14 +270,14 @@ export default function InferenceQueue({
             <button
               onClick={onRun}
               disabled={!canRun}
-              className="flex-1 bg-accent hover:bg-accent/80 disabled:bg-accent/30 disabled:cursor-not-allowed text-white font-semibold py-2 px-4 rounded-lg text-sm transition-colors"
+              className="flex-1 bg-accent hover:bg-accent/80 disabled:bg-accent/30 disabled:cursor-not-allowed text-white font-display font-bold uppercase tracking-widest py-2 px-4 rounded-lg text-sm transition-colors"
             >
               &#9654; Run Analysis
             </button>
           ) : (
             <button
               onClick={onStop}
-              className="flex-1 bg-coral hover:bg-coral/80 text-white font-semibold py-2 px-4 rounded-lg text-sm transition-colors"
+              className="flex-1 bg-coral hover:bg-coral/80 text-white font-display font-bold uppercase tracking-widest py-2 px-4 rounded-lg text-sm transition-colors"
             >
               &#9209; Stop
             </button>

@@ -15,7 +15,7 @@ export default function ProgressBar({ progress = 0, theme = 'minimal', animate =
   const isIndeterminate = progress < 0;
 
   return (
-    <div className="w-full h-1.5 bg-border rounded-full overflow-hidden">
+    <div className="w-full h-1.5 bg-border-soft rounded-full overflow-hidden">
       {isIndeterminate ? (
         <motion.div
           className={`h-full rounded-full ${getThemeClass(theme)}`}
