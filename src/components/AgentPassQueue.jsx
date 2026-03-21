@@ -168,12 +168,12 @@ export default function AgentPassQueue({
           <div className="px-3 pb-3 space-y-2.5">
             <div>
               <label className="text-[10px] text-text-lo block mb-0.5">
-                Max characters per chunk (~30-32k tokens safety margin)
+                Max characters per chunk (~{Math.round((chunkConfig.maxChars || 120000) / 4 / 1000)}k tokens)
               </label>
               <input
                 type="number"
                 value={chunkConfig.maxChars}
-                onChange={(e) => setChunkConfig({ ...chunkConfig, maxChars: parseInt(e.target.value) || 30000 })}
+                onChange={(e) => setChunkConfig({ ...chunkConfig, maxChars: parseInt(e.target.value) || 120000 })}
                 className="w-24 bg-surface border border-border-soft rounded px-2 py-1 text-xs text-text-mid focus:border-accent focus:outline-none"
               />
             </div>

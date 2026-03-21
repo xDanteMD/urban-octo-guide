@@ -7,7 +7,7 @@
  * @param {boolean} respectTurns - Whether to respect turn boundaries (default true)
  * @returns {string[]} Array of text chunks
  */
-export function chunkByTurns(text, maxChars = 30000, respectTurns = true) {
+export function chunkByTurns(text, maxChars = 120000, respectTurns = true) {
   if (!text || text.length === 0) return [];
   if (text.length <= maxChars) return [text];
 

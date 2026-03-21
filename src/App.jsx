@@ -80,7 +80,7 @@ export default function App() {
   ]);
 
   const [chunkConfig, setChunkConfig] = useStoreValue('agentChunkConfig', {
-    maxChars: 30000,
+    maxChars: 120000,
     respectTurns: true,
     interChunkDelay: 1,
     interPassDelay: 1,

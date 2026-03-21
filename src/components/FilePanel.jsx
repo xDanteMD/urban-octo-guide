@@ -6,6 +6,12 @@ function formatSize(bytes) {
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
 
+function formatTokens(charCount) {
+  const tokens = Math.round(charCount / 4);
+  if (tokens < 1000) return `~${tokens} tokens`;
+  return `~${(tokens / 1000).toFixed(1)}k tokens`;
+}
+
 export default function FilePanel({ files, setFiles }) {
   const [isDragging, setIsDragging] = useState(false);
   const [parsing, setParsing] = useState(false);
@@ -86,7 +92,7 @@ export default function FilePanel({ files, setFiles }) {
             </svg>
             <div className="flex-1 min-w-0">
               <p className="text-xs text-text-hi truncate">{file.name}</p>
-              <p className="text-[10px] text-text-lo">{formatSize(file.size)}</p>
+              <p className="text-[10px] text-text-lo">{formatSize(file.size)}{file.text ? ` · ${formatTokens(file.text.length)}` : ''}</p>
             </div>
             <button
               onClick={(e) => { e.stopPropagation(); removeFile(file.id); }}
